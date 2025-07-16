@@ -1,0 +1,76 @@
+{% extends "includes/base.html" %}
+
+{% block content %}
+
+<header>
+    <div class="footer_top">
+        <div style="display: flex; align-items: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" id="toggleButton"
+                onclick="toggleWidth()">
+                <path fill="white" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <p style="margin-right: 10px;">{{ dados[0][2] }}</p>
+            <img src="data:image/png;base64,{{  dados[0][6]  }}" style="border-radius: 50%; width: 38px; height: 38px">
+        </div>
+    </div>
+
+    <div class="content" style="max-width: 30%; text-align: start;">
+        <div style="text-align: center;">
+            <img src="data:image/png;base64,{{dados[0][6]}}" style="height: 200px; width: 200px; border-radius: 50%;">
+        </div>
+        <br><br>
+
+        <div style="display: flex; justify-content: space-between;">
+
+            <button type="button" id="btn_preferencias" class="styled-button"
+                onclick="showForm('preferencias')">Preferências</button>
+
+            <button type="button" id="btn_alterar_senha" class="styled-button"
+                onclick="showForm('alterar_senha')">Alterar Senha</button>
+
+        </div><br><br>
+
+
+        <form id="preferencias" action="/configuracao" method="post" enctype="multipart/form-data"
+            style="display: none;">
+            <p style="margin-left: 5px;">Usuário</p>
+            <input class="input_text" type="text" name="usuario" value="{{dados[0][0]}}" disabled>
+            <br>
+            <p style="margin-left: 5px;">Nome</p>
+            <input class="input_text" type="text" name="nome" value="{{dados[0][2]}}" disabled>
+            <br>
+            <p style="margin-left: 5px;">E-mail</p>
+            <input class="input_text" type="email" name="email" value="{{dados[0][3]}}">
+            <br>
+            <p style="margin-left: 5px;">Foto perfil</p>
+            <input class="input_text" type="file" name="foto_url">
+            <br>
+            <input class="input_text" type="submit" id="btn_submit" value="Salvar Preferências">
+        </form>
+
+        <form id="alterar_senha" action="/alterar_senha" method="post" enctype="multipart/form-data"
+            style="display: none;">
+            <p style="margin-left: 5px;">Senha atual</p>
+            <input class="input_text" type="password" name="senha_atual" required>
+            <br>
+            <p style="margin-left: 5px;">Nova senha</p>
+            <input class="input_text" type="password" name="nova_senha" required>
+            <br>
+            <p style="margin-left: 5px;">Repetir senha</p>
+            <input class="input_text" type="password" name="senha_confirmar" required>
+            <br>
+            <input class="input_text" type="submit" id="btn_submit" value="Alterar Senha">
+        </form>
+    </div>
+</header>
+<script>
+    function showForm(form) {
+        document.getElementById('preferencias').style.display = 'none';
+        document.getElementById('alterar_senha').style.display = 'none';
+        document.getElementById(form).style.display = 'block';
+    }
+</script>
+
+{% endblock %}

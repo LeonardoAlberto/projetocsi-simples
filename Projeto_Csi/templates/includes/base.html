@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSI Governamental</title>
+    <link rel="stylesheet" href="{{ url_for('static',     filename='css/alert.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',     filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="toast active">
+        {% for category, message in messages %}
+        <div class="toast-content">
+            <img class="fas fa-solid fa-check check" src="../static/img/{{ category }}.gif">
+            <div class="message">
+                <span class="text text-1">{{ category }}</span>
+                <span class="text text-2">{{ message|safe }}</span>
+            </div>
+        </div>
+        <i class="fa-solid fa-xmark close"></i>
+        <div class="progress active {{ category }}"></div>
+        {% endfor %}
+    </div>
+    <script>
+        setTimeout(function () {
+            document.querySelector('.toast').style.display = 'none';
+        }, 5600);
+    </script>
+    {% endif %}
+    {% endwith %}
+
+
+
+    <div id="central_esquerda">
+        <div id="central_esquerda_conteudo">
+            <img class="central_esquerda_conteudo_p" src="{{ url_for('static', filename='img/csi_logo_white.png') }}"
+                width="100%">
+            {% if dados[0][0] == 'vitoria.vieira' %}
+            <a href="#" onclick="toggleSubMenu('submenu_usuarios', 'arrow_usuarios')" class="submenu-toggle">
+                <p class="central_esquerda_conteudo_p">&#x1F465; Usuarios<span class="arrow"
+                        id="arrow_usuarios">&#8593;</span>
+                </p>
+                </p>
+            </a>
+            <div id="submenu_usuarios" class="submenu" style="display: none;">
+                <a href="/usuarios">
+                    <p class="central_esquerda_conteudo_p">Visualizar Usuarios</p>
+                </a>
+                <a href="/criar_usuario">
+                    <p class="central_esquerda_conteudo_p">Criar Usuario</p>
+                </a>
+            </div>
+            {% endif %}
+            <a href="#" onclick="toggleSubMenu('submenu_academico', 'arrow_academico')" class="submenu-toggle">
+                <p class="central_esquerda_conteudo_p">&#x1F393; Academico<span class="arrow"
+                        id="arrow_academico">&#8593;</span>
+                </p>
+            </a>
+            <div id="submenu_academico" class="submenu" style="display: none;">
+                <a href="/academico">
+                    <p class="central_esquerda_conteudo_p">Cursos disponiveis</p>
+                </a>
+            </div>
+
+            <a href="/configuracao">
+                <p class="central_esquerda_conteudo_p">&#x1F527; Configuracoes</p>
+            </a>
+            <a href="/logout">
+                <p class="central_esquerda_conteudo_p">&#x1F6AA; Deslogar</p>
+            </a>
+        </div>
+    </div>
+
+    {% block content %}{% endblock %}
+
+</body>
+<script src="{{ url_for('static',     filename='js/script.js') }}"></script>
+
+</html>

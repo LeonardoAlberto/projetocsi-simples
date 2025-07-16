@@ -1,0 +1,135 @@
+{% extends "includes/base.html" %}
+
+{% block content %}
+
+<style>
+    td,
+    th {
+        border: none;
+        border-bottom: 1px solid #ccc;
+        height: 40px;
+        padding: 10px;
+    }
+</style>
+<header>
+    <div class="footer_top">
+        <div style="display: flex; align-items: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" id="toggleButton"
+                onclick="toggleWidth()">
+                <path fill="white" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <p style="margin-right: 10px;">{{dados[0][2]}}</p>
+            <img src="data:image/png;base64,{{  dados[0][6]  }}"
+                style="border-radius: 50%; width: 38px; height: 38px">
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="content_01">
+            <h3><strong>Lista de Usuarios</strong></h3>
+            <p>{{len_usuarios}} Usuario(s) cadastrado</p>
+        </div><br>
+
+        <div class="tarefas">
+            <table>
+                <tr>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Setor</th>
+                    <th>Responsavel</th>
+                </tr>
+
+                {% for i in range(len_usuarios) %}
+                <tr>
+                    <td>
+                        <div style="text-transform: capitalize; display: flex; align-items: center; height: 40px;">
+                            <img style="max-height: 100%; max-width: 40px; margin-right: 12px; border-radius: 50%;"
+                                src="data:image/png;base64,{{  dados_pessoas[i][6]  }}"> {{dados_pessoas[i][2]}}
+                        </div>
+                    </td>
+                    <td>{{dados_pessoas[i][3]}}</td>
+                    <td style="text-transform: capitalize;">{{dados_pessoas[i][4]}}</td>
+                    <td style="text-transform: capitalize;">{{dados_pessoas[i][5]}}</td>
+                </tr>
+                {%endfor%}
+            </table>
+        </div>
+    </div>
+</header>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        let chatCodigo;
+        $('.btn_table').click(function () {
+            chatCodigo = $(this).data("id");
+            updateList(chatCodigo);
+        });
+
+        setInterval(function () {
+            if (chatCodigo) {
+                updateList(chatCodigo);
+            }
+        }, 2000);
+
+        function formatarData(dataString) {
+            var dataObjeto = new Date(dataString);
+            var dia = ("0" + dataObjeto.getDate()).slice(-2);
+            var mes = ("0" + (dataObjeto.getMonth() + 1)).slice(-2);
+            var hora = ("0" + dataObjeto.getHours()).slice(-2);
+            var minutos = ("0" + dataObjeto.getMinutes()).slice(-2);
+            return dia + '/' + mes + ' ' + hora + ':' + minutos;
+        }
+
+        function updateList(codigo) {
+            $.ajax({
+                url: '/mensagens',
+                type: 'GET',
+                data: { codigo: codigo },
+                success: function (data) {
+                    var $chatGrande = $('#chat_background .chat_grande');
+                    $chatGrande.children().not('#mensagemInput').remove();
+
+                    data.forEach(function (item) {
+                        var dataFormatada = formatarData(item[3]);
+                        $chatGrande.append('<span class="P"><strong>' + item[1] + '</strong><div class="msg_flex"> <p style="margin-right:10px;">' + item[2] + '</p> <span>' + dataFormatada + '</span></div></span>');
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Erro ao atualizar lista de mensagens:', error);
+                }
+            });
+        }
+
+
+        function enviarMensagem() {
+            var mensagem = $('#mensagemInput').val();
+            var codigo = chatCodigo
+            $.ajax({
+                url: '/enviar_mensagem',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ mensagem: mensagem, codigo: codigo }),
+                success: function (response) {
+                    console.log('Mensagem enviada com sucesso:', response);
+                    $('#mensagemInput').val('');
+                    updateList(codigo);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Erro ao enviar mensagem:', error);
+                }
+            });
+        }
+
+        $('#mensagemInput').keypress(function (e) {
+            if (e.which == 13) {
+                enviarMensagem();
+            }
+        });
+    });
+</script>
+
+{% endblock %}

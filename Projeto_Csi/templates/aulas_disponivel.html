@@ -1,0 +1,93 @@
+{% extends "includes/base.html" %}
+
+{% block content %}
+<style>
+    .trilha {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 40px;
+        margin: 40px 20px 40px 20px;
+    }
+
+    .aula {
+        flex: 0 1 calc(23% - 40px);
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 16px;
+        text-align: center;
+        background-color: white;
+    }
+
+    .aula img {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+        margin-bottom: 6px;
+    }
+
+    .status {
+        margin-top: 10px;
+        padding: 6px 12px;
+        border-radius: 10px;
+        font-size: 0.9em;
+    }
+
+    .concluido {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .andamento {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .bloqueado {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+</style>
+
+
+<header>
+    <div class="footer_top">
+        <div style="display: flex; align-items: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" id="toggleButton"
+                onclick="toggleWidth()">
+                <path fill="white" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <p style="margin-right: 10px;">{{dados[0][2]}}</p>
+            <img src="data:image/png;base64,{{  dados[0][6]  }}" style="border-radius: 50%; width: 38px; height: 38px">
+        </div>
+    </div>
+
+    <body>
+        <div class="trilha">
+            {% for i in range(len_aulas) %}
+            {% if avaliacoes == i %}
+            <a class="aula" style="color: black;" href="{{ request.path }}/{{i}}">
+                {% else %}
+                <a class="aula" style="color: black;" href="#">
+                    {% endif %}
+                    <div>
+                        <img src="{{ aulas[i][6] }}">
+                        <h4>{{ aulas[i][1] }}</h4>
+
+                        {% if avaliacoes|int-1 >= i %}
+                        <div class="status concluido">✔️ Concluída</div>
+                        {% elif avaliacoes == i %}
+                        <div class="status andamento">⏳ Em Andamento</div>
+                        {% else %}
+                        <div class="status bloqueado">🔒 Bloqueada</div>
+                        {% endif %}
+                    </div>
+                </a>
+                {% endfor %}
+        </div>
+    </body>
+</header>
+{% endblock %}

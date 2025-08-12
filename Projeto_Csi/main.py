@@ -612,7 +612,6 @@ def aulas_disponivel(curso):
             val = (curso, user)
             cursor.execute(sql, val)
             avaliacoes = cursor.fetchall()
-            print(len(avaliacoes))
         finally:
             cursor.close()
             banco.close()
@@ -647,15 +646,20 @@ def assistir_aula(curso, aula):
 
         # POST = aluno respondeu avaliação
         if request.method == 'POST':
-            p1 = request.form.get('pergunta1')
-            p2 = request.form.get('pergunta2')
-            p3 = request.form.get('pergunta3')
+            cursor.execute("SELECT * FROM avaliacoes_aula WHERE curso_id = %s AND aula = %s AND usuario = %s",
+                           (curso, aula, user))
+            ja_concluida = cursor.fetchall()
 
-            cursor.execute("""
-              INSERT INTO avaliacoes_aula (usuario, curso_id, aula, pergunta1, pergunta2, pergunta3)
-              VALUES (%s, %s, %s, %s, %s, %s)
-            """, (user, curso, aula, p1, p2, p3))
-            banco.commit()
+            if not ja_concluida:
+                p1 = request.form.get('pergunta1')
+                p2 = request.form.get('pergunta2')
+                p3 = request.form.get('pergunta3')
+
+                cursor.execute("""
+                  INSERT INTO avaliacoes_aula (usuario, curso_id, aula, pergunta1, pergunta2, pergunta3)
+                  VALUES (%s, %s, %s, %s, %s, %s)
+                """, (user, curso, aula, p1, p2, p3))
+                banco.commit()
 
             cursor.execute("SELECT * FROM aulas WHERE curso_id = %s AND episodio = %s", (curso, int(aula) + 1))
             proxima_aula = cursor.fetchone()
@@ -914,6 +918,66 @@ def resposta_chamado(codigo):
             banco.close()
     else:
         return redirect('/login')
+
+
+@app.route('/dashboard')
+def dashboard():
+    if "user" in session:
+        user = session["user"]
+        banco = mysql.connector.connect(**database_db)
+        cursor = banco.cursor(dictionary=True)
+
+        sql = 'SELECT * FROM usuarios WHERE usuario = %s'
+        val = (user,)
+        cursor.execute(sql, val)
+        dados = cursor.fetchall()
+
+        cursor.close()
+        banco.close()
+        lista_de_usuarios = [
+            {
+                "nome": "Ana Clara",
+                "ultimo_login": "2025-07-28 09:15",
+                "ultimo_video": "Ambiente Organizacional",
+                "total_visualizacoes": 14,
+                "media_nota": 8.7
+            },
+            {
+                "nome": "Bruno Souza",
+                "ultimo_login": "2025-07-29 08:30",
+                "ultimo_video": "Ética Corporativa",
+                "total_visualizacoes": 22,
+                "media_nota": 9.1
+            },
+            {
+                "nome": "Carlos Lima",
+                "ultimo_login": "2025-07-25 15:42",
+                "ultimo_video": "Gestão de Projetos",
+                "total_visualizacoes": 10,
+                "media_nota": 7.5
+            },
+            {
+                "nome": "Daniela Rocha",
+                "ultimo_login": "2025-07-28 18:05",
+                "ultimo_video": "Governança Corporativa",
+                "total_visualizacoes": 17,
+                "media_nota": 8.3
+            }
+        ]
+
+        return render_template("dashboard.html",
+                               total_usuarios=len(lista_de_usuarios),
+                               usuarios_online_hoje=2,
+                               total_visualizacoes=sum(u["total_visualizacoes"] for u in lista_de_usuarios),
+                               media_geral_notas=round(
+                                   sum(u["media_nota"] for u in lista_de_usuarios) / len(lista_de_usuarios), 2),
+                               usuarios=lista_de_usuarios,
+                               dias_acessos=["Seg", "Ter", "Qua", "Qui", "Sex"],
+                               acessos_diarios=[10, 20, 15, 30, 25],
+                               cursos=["Gestão", "Planejamento", "Jurídico"],
+                               notas_medias=[8.2, 7.9, 9.1],
+                               dados=dados
+                               )
 
 
 @app.route("/logout")

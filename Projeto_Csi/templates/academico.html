@@ -66,11 +66,11 @@
         {% for i in range(len_cursos) %}
         <div class="course-card">
             <a href="/academico/curso/{{ cursos[i][0] }}">
-                <img src="{{ cursos[i][3] }}" alt="Capa do Curso">
+                <img src="{{ url_for('static', filename='img/' ~ cursos[i][3]) }}" alt="Capa do Curso">
                 <div>
                     <h3>{{ cursos[i][1] }}</h3>
                     <p>{{ cursos[i][2] }}</p>
-                    <p><strong>Duração:</strong> 40 Horas</p>
+                    <p><strong>Duração:</strong> 2 Horas</p>
                 </div>
             </a>
         </div>

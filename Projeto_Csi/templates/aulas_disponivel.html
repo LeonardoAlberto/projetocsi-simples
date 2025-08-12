@@ -68,7 +68,7 @@
     <body>
         <div class="trilha">
             {% for i in range(len_aulas) %}
-            {% if avaliacoes == i %}
+            {% if avaliacoes >= i %}
             <a class="aula" style="color: black;" href="{{ request.path }}/{{i}}">
                 {% else %}
                 <a class="aula" style="color: black;" href="#">

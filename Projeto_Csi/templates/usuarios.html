@@ -28,8 +28,8 @@
 
     <div class="content">
         <div class="content_01">
-            <h3><strong>Lista de Usuarios</strong></h3>
-            <p>{{len_usuarios}} Usuario(s) cadastrado</p>
+            <h3><strong>Lista de Usuários</strong></h3>
+            <p>{{len_usuarios}} Usuário(s) cadastrado(s)</p>
         </div><br>
 
         <div class="tarefas">
@@ -38,7 +38,7 @@
                     <th>Nome</th>
                     <th>E-mail</th>
                     <th>Setor</th>
-                    <th>Responsavel</th>
+                    <th>Responsável</th>
                 </tr>
 
                 {% for i in range(len_usuarios) %}
@@ -50,7 +50,7 @@
                         </div>
                     </td>
                     <td>{{dados_pessoas[i][3]}}</td>
-                    <td style="text-transform: capitalize;">{{dados_pessoas[i][4]}}</td>
+                    <td style="text-transform: capitalize;">{{ dados_pessoas[i][4].replace('_', ' ').title() }}</td>
                     <td style="text-transform: capitalize;">{{dados_pessoas[i][5]}}</td>
                 </tr>
                 {%endfor%}
@@ -133,3 +133,4 @@
 </script>
 
 {% endblock %}
+

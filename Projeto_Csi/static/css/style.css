@@ -1,0 +1,685 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #dcdcdc;
+    columns: 2;
+    display: flex;
+    font-family: figtree,Arial;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+.alert-red {
+    background-color: #f4cccc !important;
+    /* Vermelho suave e claro */
+    color: #b02a2a;
+    /* Texto em vermelho escuro para contraste */
+}
+
+.alert-yellow {
+    background-color: #ffe599 !important;
+    /* Amarelo suave e discreto */
+    color: black;
+}
+
+.alert-green {
+    background-color: #c8e6c9 !important;
+    /* Verde claro e suave */
+    color: #154360;
+    /* Texto em azul escuro para contraste */
+}
+
+header::-webkit-scrollbar {
+    width: 2px;
+    color: #d1bebe;
+}
+
+header {
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.central_esquerda_conteudo_p {
+    display: block;
+}
+
+#central_esquerda_conteudo {
+    margin: 10px 35px;
+    width: 100%;
+}
+
+#central_esquerda {
+    width: 300px;
+    height: 100vh;
+    background-color: rgb(41, 52, 98);
+    display: flex;
+    color: #bababa;
+    transition: width 0.8s ease;
+    columns: 1;
+    align-self: center;
+}
+
+a {
+    color: #bababa;
+    text-decoration: none;
+}
+
+#central_esquerda p {
+    margin-top: 30px;
+}
+
+#central_esquerda p:hover {
+    color: white;
+    cursor: pointer;
+}
+
+#toggleButton {
+    width: 45px;
+    cursor: pointer;
+    margin-right: 20px;
+    width: 30px;
+    height: 30px;
+    background-color: rgb(41, 52, 98);
+    border-radius: 0px 10px 10px 0px;
+    padding: 10px;
+}
+
+.footer_top {
+    background-color: white;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    align-self: start;
+    justify-content: space-between;
+    padding: 15px 20px 15px 0px;
+}
+
+.content {
+    max-width: 95%;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 7px;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+
+#content_pesquisa {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#content_pesquisa select {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+}
+
+.content_01 {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+th,
+td {
+    padding: 8px 10px;
+    text-align: left;
+    border: solid 1px #e7dfdf;
+    max-width: 500px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+
+.fa-bars:before {
+    content: "\f0c9";
+}
+
+.login {
+    height: 300px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    margin-top: 200px;
+}
+
+.chat-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 0;
+    color: #bababa;
+}
+
+.chat-icon .icon {
+    font-size: 18px;
+}
+
+.chat-icon .icon::before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f086";
+    font-weight: 900;
+}
+
+#chat_background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.83);
+    z-index: 998;
+}
+
+.chat_grande {
+    width: 600px;
+    height: 80%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 998;
+    border-radius: 5px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column-reverse;
+    padding-bottom: 15px;
+    overflow-y: auto;
+    background-color: #f5f1ee;
+}
+
+.chat_grande span {
+    padding: 7px;
+    margin-bottom: 4px;
+    display: block;
+    margin: 6px;
+    max-width: 70%;
+}
+
+.chat_grande span strong {
+    margin-right: 5px;
+}
+
+#mensagemInput {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    outline: none;
+    font-size: 15px;
+    margin: 0px auto;
+}
+
+#mensagemInput:focus {
+    outline: none;
+}
+
+.P strong {
+    display: flex;
+    margin-bottom: 4px;
+}
+
+.P span {
+    margin: 0px;
+    padding: 0px;
+    font-size: 9px;
+}
+
+.msg_flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.msg_flex strong {
+    display: inline-block;
+}
+
+.message-enviada {
+    background-color: #48B0F7;
+    color: white;
+    align-self: flex-end;
+    border-radius: 3px;
+}
+
+.message-recebida {
+    background-color: white;
+    color: black;
+    align-self: flex-start;
+    border-radius: 3px;
+}
+
+.configs_user {
+    display: flex;
+}
+
+.criar_tarefa input,
+.criar_tarefa select {
+    margin-bottom: 20px;
+}
+
+input[type=submit] {
+    text-align: center;
+    display: block;
+}
+
+#btn_submit {
+    width: 100%;
+    border: none;
+    background-color: #13aa52;
+    padding: 17px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 0px;
+    font-size: 15px;
+}
+
+
+
+/* ORGONGRAMA */
+/* styles.css */
+.tree ul {
+    padding-top: 20px;
+    position: relative;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+}
+
+.tree li {
+    float: left;
+    text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 20px 5px 0 5px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+}
+
+/*We will use ::before and ::after to draw the connectors*/
+
+.tree li::before,
+.tree li::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 50%;
+    border-top: 1px solid #b4afaf;
+    width: 50%;
+    height: 20px;
+}
+
+.tree li::after {
+    right: auto;
+    left: 50%;
+    border-left: 1px solid #b4afaf;
+}
+
+/*We need to remove left-right connectors from elements without any sibling*/
+.tree li:only-child::after,
+.tree li:only-child::before {
+    display: none;
+}
+
+/*Remove space from the top of single children*/
+.tree li:only-child {
+    padding-top: 0;
+}
+
+/*Remove left connector from first child and right connector from last child*/
+.tree li:first-child::before,
+.tree li:last-child::after {
+    border: 0 none;
+}
+
+/*Adding back the vertical connector to the last nodes*/
+.tree li:last-child::before {
+    border-right: 1px solid #b4afaf;
+    border-radius: 0 5px 0 0;
+    -webkit-border-radius: 0 5px 0 0;
+    -moz-border-radius: 0 5px 0 0;
+}
+
+.tree li:first-child::after {
+    border-radius: 5px 0 0 0;
+    -webkit-border-radius: 5px 0 0 0;
+    -moz-border-radius: 5px 0 0 0;
+}
+
+/*Time to add downward connectors from parents*/
+.tree ul ul::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-left: 1px solid #b4afaf;
+    width: 0;
+    height: 20px;
+}
+
+.tree li a {
+    border: 1px solid #b4afaf;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #1b1919;
+    font-size: 12px;
+    display: inline-block;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+}
+
+.tree li a:hover,
+.tree li a:hover+ul li a {
+    background: #c8e4f8;
+    color: #000;
+    border: 1px solid #94a0b4;
+}
+
+.tree li a:hover+ul li::after,
+.tree li a:hover+ul li::before,
+.tree li a:hover+ul::before,
+.tree li a:hover+ul ul::before {
+    border-color: #94a0b4;
+}
+
+/* ORGONGRAMA */
+
+
+.submenu-toggle .arrow {
+    float: right;
+    transform: rotate(270deg);
+}
+
+.submenu-toggle.collapsed .arrow {
+    transform: rotate(180deg);
+}
+
+.submenu {
+    padding-left: 10px;
+    display: none;
+}
+
+.arrow {
+    transition: transform 0.5s;
+}
+
+
+.input_text,
+select,
+option,
+textarea {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-family: 'Arial', sans-serif;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+input,
+select,
+option,
+textarea {
+    padding: 13px 8px;
+    margin: 5px;
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+}
+
+
+.input_text:focus {
+    border-color: #0056b3;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+
+select::after {
+    border: none;
+    background-color: #90ee90;
+}
+
+select:focus {
+    outline: none;
+    border: none;
+}
+
+.dropdown select {
+    font-size: 14px;
+}
+
+
+/* td sem cor table*/
+
+.nao_iniciada,
+.pendente {
+    background-color: #f4cccc;
+    /* Vermelho suave e claro, mas não exagerado */
+}
+
+.nao_iniciada select {
+    color: #b02a2a;
+    /* Texto em vermelho escuro para contraste */
+}
+
+.em_andamento {
+    background-color: #ffe599;
+    /* Amarelo suave e discreto */
+}
+
+.pausada {
+    background-color: #d9aedd;
+    /* Roxo suave, mas sem ser excessivamente claro */
+}
+
+.pronta_para_revisao,
+.aberto {
+    background-color: #c8e6c9;
+    /* Verde claro, mas mais sério e profissional */
+}
+
+.concluida,
+.resolvido {
+    background-color: #a2c2e0;
+    /* Azul claro, mas não muito saturado */
+}
+
+.concluida select {
+    color: #154360;
+    /* Texto em azul escuro para uma boa legibilidade */
+}
+
+
+
+/*aba de aula*/
+.anexos_video {
+    flex: 1;
+    padding: 0px;
+    background-color: #f5f7fa;
+    text-align: center;
+    height: 550px;
+    margin-left: 20px;
+}
+
+.btn_anexo {
+    background-color: #f5f5f5;
+    color: #333;
+    padding: 10px 20px;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 500;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn_anexo:hover {
+    background-color: #e0e0e0;
+    color: #000;
+}
+
+.btn_proxima {
+    background-color: #ffffff;
+    border: 1px solid #28a745;
+    color: #28a745;
+}
+
+.btn_proxima:hover {
+    background-color: #28a745;
+    color: #fff;
+}
+
+
+.comentarios {
+    padding: 20px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    margin-top: 7px;
+    font-family: sans-serif;
+}
+
+.comentarios h3 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #333;
+}
+
+.comentario {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.autor {
+    font-weight: bold;
+    color: #555;
+}
+
+.data {
+    font-weight: normal;
+    font-size: 0.9em;
+    color: #999;
+}
+
+.texto {
+    margin-top: 5px;
+    color: #333;
+}
+
+.form_comentario {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form_comentario textarea {
+    resize: vertical;
+    min-height: 80px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.form_comentario button {
+    width: 120px;
+    padding: 8px 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    align-self: flex-end;
+    transition: background-color 0.3s ease;
+}
+
+.form_comentario button:hover {
+    background-color: #45a049;
+}
+
+.aula {
+    min-height: 220px;
+}
+
+
+/*--*/
+
+/*--*/
+
+.opcao_chamados {
+    padding: 12px 35px;
+    background-color: #0056b3;
+    /* Cor azul mais profissional */
+    color: white;
+    /* Texto em branco para melhor contraste */
+    width: 50%;
+    display: inline-block;
+    margin: 12px;
+    font-size: 13.5px;
+    font-weight: bold;
+    /* Destaque no texto */
+    cursor: pointer;
+    border-radius: 5px;
+    /* Borda levemente arredondada */
+    border: 2px solid #004494;
+    /* Borda sutil */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    /* Efeito suave ao passar o mouse */
+}
+
+.opcao_chamados:hover {
+    background-color: #004494;
+    /* Escurece ao passar o mouse */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Sombra ao passar o mouse */
+}
+
+.styled-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 1px;
+    width: 100%;
+}
+
+.styled-button:hover {
+    background-color: #45a049;
+}
+

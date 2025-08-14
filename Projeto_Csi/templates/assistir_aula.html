@@ -1,0 +1,231 @@
+{% extends "includes/base.html" %}
+
+{% block content %}
+<style>
+    .limited-text {
+        display: inline-block;
+        width: 240px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        color: #777;
+    }
+
+    pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        max-width: 100%;
+    }
+
+    .video-container {
+        width: 100%;
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+    .avaliacao {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .pergunta {
+        font-weight: bold;
+    }
+
+    .estrelas {
+        display: flex;
+        gap: 5px;
+    }
+
+    .estrelas input[type="radio"] {
+        display: none;
+    }
+
+    .estrelas label {
+        font-size: 22px;
+        color: #ccc;
+        cursor: pointer;
+    }
+
+    .estrelas input[type="radio"]:checked~label {
+        color: #ffc107;
+    }
+
+    .estrelas label:hover,
+    .estrelas label:hover~label {
+        color: #ffca2c;
+    }
+</style>
+
+<body>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+
+    <div class="toast active">
+        {% for category, message in messages %}
+        <div class="toast-content">
+            <img class="fas fa-solid fa-check check" src="../static/img/{{ category }}.gif">
+
+
+            <div class="message">
+                <span class="text text-1">{{ category }}</span>
+                <span class="text text-2">{{ message }}</span>
+            </div>
+
+        </div>
+
+        <i class="fa-solid fa-xmark close"></i>
+        <div class="progress active {{ category }}"></div>
+        {% endfor %}
+
+    </div>
+    <script>
+        setTimeout(function () {
+            document.querySelector('.toast').style.display = 'none';
+        }, 5600);
+    </script>
+    {% endif %}
+    {% endwith %}
+
+    <header>
+        <div class="footer_top">
+            <div style="display: flex; align-items: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" id="toggleButton"
+                    onclick="toggleWidth()">
+                    <path fill="white" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                </svg>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <p style="margin-right: 10px;">{{ dados[0]['nome'] }}</p>
+                <img src="data:image/png;base64,{{  dados[0]['foto_user']  }}"
+                    style="border-radius: 50%; width: 38px; height: 38px">
+            </div>
+        </div>
+
+        <div class="content" style="max-width: 90%; display: flex; justify-content: space-between;">
+            <div class="video" style="flex: 2;">
+
+                <div class="local_player">
+                    <iframe style="border: none;" width="100%" height="550px"
+                        src="{{ dados_aula[0]['video_url'] }}"></iframe>
+                </div>
+
+                <h2 class="local_player" style="margin-top: 10px; font-size: 24px; color: #333;">
+                    {{dados_aula[0]['titulo']}}</h2>
+                <pre class="local_player"
+                    style="font-size: 16px; color: #555; font-family: figtree;">{{dados_aula[0]['descricao']}}</pre>
+                <br>
+
+                <form method="POST" id="form_avaliacao" class="avaliacao" style="display: none;">
+                    <div>
+                        <div class="pergunta">1. O conteúdo do curso foi claro e de simples entendimento para você?
+                        </div>
+                        <div class="estrelas">
+                            {% for i in range(10, 0, -1) %}
+                            <input type="radio" name="pergunta1" id="p1_{{ i }}" value="{{ i }}" required>
+                            <label for="p1_{{ i }}">★</label>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="pergunta">2. A qualidade do vídeo estava boa e compreensível?</div>
+                        <div class="estrelas">
+                            {% for i in range(10, 0, -1) %}
+                            <input type="radio" name="pergunta2" id="p2_{{ i }}" value="{{ i }}" required>
+                            <label for="p2_{{ i }}">★</label>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="pergunta">3. Como você avalia a didática do(a) professor(a)?</div>
+                        <div class="estrelas">
+                            {% for i in range(10, 0, -1) %}
+                            <input type="radio" name="pergunta3" id="p3_{{ i }}" value="{{ i }}" required>
+                            <label for="p3_{{ i }}">★</label>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn_anexo">Enviar e Ir para Próxima Aula</button>
+                </form>
+
+            </div>
+
+
+            <div class="anexos_video local_player"
+                style=" display: flex; flex-direction: column; justify-content: space-between; text-align: center; align-items: center;">
+                <button class="btn_anexo">📎 Anexo da aula</button>
+                <button onclick="concluir_aula()" class="btn_anexo">Finalizar aula</button>
+            </div>
+        </div>
+    </header>
+</body>
+<script src="{{ url_for('static',     filename='js/script.js') }}"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("form_avaliacao");
+
+        if (!form) return;
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault(); // ⚠️ IMPRESCINDÍVEL
+
+            const formData = new FormData(form);
+
+            fetch(window.location.pathname, {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.next) {
+                        window.location.href = data.next;
+                    } else {
+                        alert("Erro ao redirecionar.");
+                    }
+                })
+                .catch(() => alert("Erro de conexão."));
+        });
+    });
+</script>
+
+<script>
+    function concluir_aula() {
+        // Esconde todos os elementos com a classe "local_player"
+        document.querySelectorAll('.local_player').forEach(function (el) {
+            el.style.display = 'none';
+        });
+
+        // Exibe o formulário com ID "form_avaliacao"
+        const form = document.getElementById('form_avaliacao');
+        if (form) {
+            form.style.display = 'block';
+        }
+    }
+</script>
+
+
+{% endblock %}

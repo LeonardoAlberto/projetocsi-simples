@@ -1,0 +1,57 @@
+{% extends "includes/base.html" %}
+
+{% block content %}
+
+
+<header>
+    <div class="footer_top">
+        <div style="display: flex; align-items: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" id="toggleButton"
+                onclick="toggleWidth()">
+                <path fill="white" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <p style="margin-right: 10px;">{{ dados[0][2] }}</p>
+            <img src="data:image/png;base64,{{  dados[0][6]  }}"
+                style="border-radius: 50%; width: 38px; height: 38px">
+        </div>
+    </div>
+    <div class="content" style="max-width: 30%;">
+        <div class="criar_tarefa">
+            <form action="criar_tarefa" method="post">
+                <p style="font-size: 15px;">Objetivo geral</p>
+                <textarea name="objetivo_geral" class="input_text" required></textarea>                
+                <p style="font-size: 15px;">Ações (O que)?</p>
+                <textarea name="acoes_oque" class="input_text" required></textarea>                   
+                <p style="font-size: 15px;">Por quê?</p>
+                <textarea name="porque" class="input_text" required></textarea>                
+                <p style="font-size: 15px;">Responsável/Facilitador</p>
+                {% for i in usuarios %}
+                <div style="display: flex; margin-left: 5px;">
+                    <input type="checkbox" name="responsaveis" value="{{i[0]}}" style="margin: 0; padding: 0; width: auto;">
+                    <p style="white-space: nowrap; margin: 5px;">{{i[0]}}</p>
+                </div>
+                {% endfor %}
+                <p style="font-size: 15px; margin-top: 20px;">Prazo Final</p>
+                <input type="date" name="prazo_final" class="input_text" required>
+                <p style="font-size: 15px;">Custo</p>
+                <input type="number" name="custo" class="input_text" required>
+                <p style="font-size: 15px;">Política</p>
+                <select name="politica" id="politica">
+                    <option value="politica_divulgacao">Política De Divulgação</option>
+                    <option value="politica_portavoz">Política De Porta-Voz</option>
+                    <option value="politica_governanca_corporativa">Política De Governança Corporativa</option>
+                    <option value="politica_distribuicao_dividendos">Política De Distribuição De Dividendos</option>
+                    <option value="politica_transacao_partes_relacionadas">Política De Transação De Partes Relacionadas</option>
+                    <option value="politica_sustentabilidade">Política De Sustentabilidade</option>
+                    <option value="politica_remuneracao">Política De Remuneração</option>
+                    <option value="codigo_conduta_etica_integridade">Código De Conduta, Ética E Integridade</option>
+                </select>
+                <input type="submit" value="Criar ação" id="btn_submit">
+            </form>
+        </div>
+    </div>
+</header>
+
+{% endblock %}
